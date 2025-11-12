@@ -164,7 +164,7 @@ AS (
 DELETE FROM UniqueCategories
 WHERE rowNum > 1
 
------
+----- 18
 
 WITH luka(startDate, endDate, days)
 AS
@@ -175,5 +175,10 @@ SELECT
 		DATEDIFF(day, ShippedDate, LEAD(ShippedDate) OVER (ORDER BY ShippedDate))
 	FROM Orders
 )
-SELECT startDate+1, endDate-1 FROM luka 
-WHERE days > 1
+SELECT 
+	startDate+1 AS RangeStart, 
+	endDate-1 AS RangeEnd, 
+	DATENAME(WEEKDAY, startDate+1) as StartDayOfWeek,
+	DATENAME(WEEKDAY, endDate-1) as EndDayOfWeek
+FROM luka 
+WHERE days > 4
