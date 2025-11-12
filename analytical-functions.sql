@@ -166,4 +166,14 @@ WHERE rowNum > 1
 
 -----
 
-
+WITH luka(startDate, endDate, days)
+AS
+(
+SELECT 
+		ShippedDate,
+		LEAD(ShippedDate) OVER (ORDER BY ShippedDate),
+		DATEDIFF(day, ShippedDate, LEAD(ShippedDate) OVER (ORDER BY ShippedDate))
+	FROM Orders
+)
+SELECT startDate+1, endDate-1 FROM luka 
+WHERE days > 1
