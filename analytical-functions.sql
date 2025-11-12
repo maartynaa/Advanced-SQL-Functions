@@ -129,7 +129,7 @@ FROM(
 ) S 
 WHERE s.MaxValue < s.AvgValue 
 
------
+----- 14
 
 SELECT
 	ProductID,
@@ -150,4 +150,20 @@ SELECT
     ROWS BETWEEN 3 PRECEDING AND 1 PRECEDING), 2) AS MoveAvgDiff
     
 FROM Products P
-JOIN Categories C ON P.CategoryID = C.CategoryI
+JOIN Categories C ON P.CategoryID = C.CategoryID
+
+----- 15
+
+WITH UniqueCategories(categoryID, rowNum)
+AS (
+	SELECT
+		CategoryID,
+		ROW_NUMBER() OVER (PARTITION BY CategoryID ORDER BY CategoryID)
+	FROM MyCategories
+)
+DELETE FROM UniqueCategories
+WHERE rowNum > 1
+
+-----
+
+
