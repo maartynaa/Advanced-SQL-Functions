@@ -140,6 +140,14 @@ SELECT
           AS RunSum,
 	MAX(UnitPrice) OVER(PARTITION BY CategoryName ORDER BY UnitPrice 
     ROWS BETWEEN 2 PRECEDING AND 2 FOLLOWING) 
-          AS RunSum
+          AS MaxUnitPrice,
+    ROUND(AVG(UnitPrice) OVER(PARTITION BY CategoryName ORDER BY UnitPrice 
+    ROWS BETWEEN 2 PRECEDING AND CURRENT ROW), 2)
+          AS MovAvg,
+   ROUND(AVG(UnitPrice) OVER(PARTITION BY CategoryName ORDER BY UnitPrice 
+    ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)
+   - AVG(UnitPrice) OVER(PARTITION BY CategoryName ORDER BY UnitPrice 
+    ROWS BETWEEN 3 PRECEDING AND 1 PRECEDING), 2) AS MoveAvgDiff
+    
 FROM Products P
-JOIN Categories C ON P.CategoryID = C.CategoryID
+JOIN Categories C ON P.CategoryID = C.CategoryI
