@@ -154,6 +154,14 @@ JOIN Categories C ON P.CategoryID = C.CategoryID
 
 ----- 15
 
+-- remove duplicated rows
+
+SELECT * INTO MyCategories FROM Categories
+UNION ALL
+SELECT * FROM Categories
+UNION ALL
+SELECT * FROM Categories
+	
 WITH UniqueCategories(categoryID, rowNum)
 AS (
 	SELECT
@@ -162,7 +170,10 @@ AS (
 	FROM MyCategories
 )
 DELETE FROM UniqueCategories
-WHERE rowNum > 1
+WHERE rowNum > 1;
+
+
+SELECT * FROM MyCategories;
 
 ----- 18
 
