@@ -48,13 +48,11 @@ SELECT
 FROM Orders O
 OUTER APPLY
 (
-	SELECT CI.CompanyName, CI.ContactName, CI.Address FROM customerInfo(O.OrderID) CI
-	WHERE CI.OrderID = O.OrderID
+	SELECT * FROM customerInfo(O.OrderID) CI
 ) C
 OUTER APPLY 
 (
-	SELECT EI.FirstName, EI.LastName FROM employeeInfo(O.OrderID) EI 
-	WHERE EI.OrderID = O.OrderID 
+	SELECT * FROM employeeInfo(O.OrderID) EI 
 ) C1
 ORDER BY O.OrderID
 
